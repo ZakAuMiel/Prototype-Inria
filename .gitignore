@@ -1,0 +1,22 @@
+# Unity générés
+[Ll]ibrary/
+[Tt]emp/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+UserSettings/
+
+# GROS fichiers à ignorer pour un repo léger
+*.exr
+*.tga
+*.png
+*.psd
+
+# IDE / OS
+.vscode/
+*.csproj
+*.sln
+*.user
+.DS_Store
+Thumbs.db
