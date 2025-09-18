@@ -4,77 +4,61 @@ using TMPro;
 
 public class QuestManager : MonoBehaviour
 {
-    [Header("UI References")]
-    public Transform questPanel;        // Le panel qui contiendra les quêtes
-    public GameObject textPrefab;       // Prefab d’un TextMeshProUGUI
-    public ParticleSystem confettis;    // Effet de fin
+    public Transform questPanel;
+    public GameObject textPrefab;
+    public ParticleSystem confettis;
 
-    private readonly List<GameObject> quests = new List<GameObject>();
+    private List<TextMeshProUGUI> quests = new List<TextMeshProUGUI>();
+    private int currentQuestIndex = 0;
 
     void Start()
     {
-        // Exemple d’objectifs au lancement
-        AddQuest("- Prends le cube");
-        AddQuest("- Pivot le cube");
-        AddQuest("- jette le cube");
+        AddQuest("Prend le cube");
+        AddQuest("Pivote le cube");
+        AddQuest("Jette le cube");
     }
 
-    /// <summary>
-    /// Crée une nouvelle ligne de quête avec le texte donné.
-    /// </summary>
     public void AddQuest(string description)
     {
-        if (textPrefab == null || questPanel == null)
-        {
-            Debug.LogError("QuestManager : textPrefab ou questPanel n’est pas assigné dans l’inspecteur.");
-            return;
-        }
-
         GameObject obj = Instantiate(textPrefab, questPanel);
         TextMeshProUGUI tmp = obj.GetComponent<TextMeshProUGUI>();
-        if (tmp != null)
-        {
-            tmp.text = description;
-        }
-        else
-        {
-            Debug.LogError("QuestManager : le prefab n’a pas de composant TextMeshProUGUI !");
-        }
-
-        quests.Add(obj);
+        tmp.text = "- " + description;
+        quests.Add(tmp);
     }
 
-    /// <summary>
-    /// Marque une quête comme complétée et vérifie si toutes sont terminées.
-    /// </summary>
-    public void CompleteQuest(int index)
+    // Appelle cette fonction quand le joueur effectue une action
+    public void PlayerDidAction(string action)
+    {
+        if (currentQuestIndex >= quests.Count) return;
+
+        string questText = quests[currentQuestIndex].text.Replace("- ", "").Replace("<s>", "").Replace("</s>", "");
+
+        // Si l'action correspond à la quête courante
+        if ((currentQuestIndex == 0 && action == "TakeCube") ||
+            (currentQuestIndex == 1 && action == "RotateCube") ||
+            (currentQuestIndex == 2 && action == "ThrowCube"))
+        {
+            CompleteQuest(currentQuestIndex);
+            currentQuestIndex++;
+        }
+    }
+
+    private void CompleteQuest(int index)
     {
         if (index < 0 || index >= quests.Count) return;
 
-        TextMeshProUGUI tmp = quests[index].GetComponent<TextMeshProUGUI>();
-        if (tmp != null)
-        {
-            tmp.color = Color.green;
-        }
-
+        TextMeshProUGUI tmp = quests[index];
+        tmp.text = "<s>" + tmp.text + "</s>"; // barre le texte
         CheckAllCompleted();
     }
 
     private void CheckAllCompleted()
     {
-        foreach (GameObject q in quests)
+        foreach (TextMeshProUGUI t in quests)
         {
-            TextMeshProUGUI tmp = q.GetComponent<TextMeshProUGUI>();
-            if (tmp == null || tmp.color != Color.green)
-                return;
+            if (!t.text.Contains("<s>")) return; // pas encore terminé
         }
 
-        // Toutes les quêtes sont vertes
-        if (confettis != null)
-        {
-            confettis.Play();
-        }
-
-        Debug.Log("Toutes les quêtes sont terminées !");
+        confettis?.Play(); // toutes les quêtes sont faites
     }
 }
