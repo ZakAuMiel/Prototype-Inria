@@ -738,9 +738,9 @@ GameObject:
   - component: {fileID: 1214955347}
   - component: {fileID: 1214955346}
   - component: {fileID: 1214955345}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6022,13 +6022,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770260487}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.48, y: 2.38, z: 42.16}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 0.70899963, y: 3.7700002, z: 0.20000076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 6350336509844578458}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1778021003
 GameObject:
   m_ObjectHideFlags: 0
@@ -6458,6 +6458,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2599640242603484502, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
+      propertyPath: questManager
+      value: 
+      objectReference: {fileID: 1070725105}
     - target: {fileID: 4014945002144309426, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.189
@@ -6520,7 +6524,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4014945002144309426, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1770260490}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
 --- !u!1001 &5104477505139339196
@@ -6653,6 +6660,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c10a30f34a5e5df488f0e26780a1c5ec, type: 3}
+--- !u!4 &6350336509844578458 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4014945002144309426, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
+  m_PrefabInstance: {fileID: 3975768824116843067}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6905674619914210236
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6847,6 +6859,5 @@ SceneRoots:
   - {fileID: 7573757034075898764}
   - {fileID: 1214955349}
   - {fileID: 818046130}
-  - {fileID: 1770260490}
   - {fileID: 1070725106}
   - {fileID: 1974226826}

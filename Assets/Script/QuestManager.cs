@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
         {
             if (!t.text.Contains("<s>")) return; // pas encore terminé
         }
-
+        confettis.gameObject.SetActive(true);
         confettis?.Play(); // toutes les quêtes sont faites
     }
 }
