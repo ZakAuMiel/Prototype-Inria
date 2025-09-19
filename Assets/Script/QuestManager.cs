@@ -8,6 +8,9 @@ public class QuestManager : MonoBehaviour
     public GameObject textPrefab;
     public ParticleSystem confettis;
 
+    public AudioClip ValidationSound;
+    public AudioClip victorySound;
+
     private List<TextMeshProUGUI> quests = new List<TextMeshProUGUI>();
     private int currentQuestIndex = 0;
 
@@ -39,6 +42,7 @@ public class QuestManager : MonoBehaviour
             (currentQuestIndex == 2 && action == "ThrowCube"))
         {
             CompleteQuest(currentQuestIndex);
+            AudioSource.PlayClipAtPoint(ValidationSound, Camera.main.transform.position);
             currentQuestIndex++;
         }
     }
@@ -59,6 +63,7 @@ public class QuestManager : MonoBehaviour
             if (!t.text.Contains("<s>")) return; // pas encore terminé
         }
         confettis.gameObject.SetActive(true);
+        AudioSource.PlayClipAtPoint(victorySound, Camera.main.transform.position);
         confettis?.Play(); // toutes les quêtes sont faites
     }
 }
