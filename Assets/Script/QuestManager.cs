@@ -56,14 +56,27 @@ public class QuestManager : MonoBehaviour
         CheckAllCompleted();
     }
 
-    private void CheckAllCompleted()
+   private void CheckAllCompleted()
+{
+    foreach (TextMeshProUGUI t in quests)
     {
-        foreach (TextMeshProUGUI t in quests)
-        {
-            if (!t.text.Contains("<s>")) return; // pas encore terminé
-        }
-        confettis.gameObject.SetActive(true);
-        AudioSource.PlayClipAtPoint(victorySound, Camera.main.transform.position);
-        confettis?.Play(); // toutes les quêtes sont faites
+        if (!t.text.Contains("<s>")) return; // pas encore terminé
     }
+
+    if (confettis != null)
+    {
+        confettis.gameObject.SetActive(true); // active le parent si besoin
+
+        // joue tous les Particle Systems enfants
+        ParticleSystem[] systems = confettis.GetComponentsInChildren<ParticleSystem>();
+        foreach (var ps in systems)
+        {
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            ps.Play(true);
+        }
+    }
+
+    AudioSource.PlayClipAtPoint(victorySound, Camera.main.transform.position);
+}
+
 }

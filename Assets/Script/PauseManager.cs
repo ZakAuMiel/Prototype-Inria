@@ -36,9 +36,5 @@ public class PauseMenuManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-        // Dans l’éditeur, pour tester
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
     }
 }
