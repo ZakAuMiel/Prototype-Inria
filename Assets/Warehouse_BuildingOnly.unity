@@ -578,6 +578,8 @@ MonoBehaviour:
   questPanel: {fileID: 282397264}
   textPrefab: {fileID: 5405056421073441892, guid: 821adfeae69d78848878a71f17b074fa, type: 3}
   confettis: {fileID: 1770260489}
+  ValidationSound: {fileID: 8300000, guid: 006a8b3510e580f4da9bf84ca1d778be, type: 3}
+  victorySound: {fileID: 8300000, guid: c6659bd8d9c0ee247b85e051dca58497, type: 3}
 --- !u!4 &1070725106
 Transform:
   m_ObjectHideFlags: 0
@@ -681,12 +683,12 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 0
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
@@ -694,7 +696,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 66a6cf3f2c14c014cb20b6311ad7bbc2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -733,11 +735,11 @@ Transform:
   m_GameObject: {fileID: 1214955344}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.98, y: -1.98, z: -7.85}
+  m_LocalPosition: {x: 32.29104, y: 0.59538245, z: 5.9418263}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1348817346}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1246231800 stripped
 Transform:
@@ -6337,6 +6339,14 @@ PrefabInstance:
       propertyPath: questManager
       value: 
       objectReference: {fileID: 1070725105}
+    - target: {fileID: 2599640242603484502, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
+      propertyPath: normalMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 599e701b4e055464f8fbe3272bf024df, type: 2}
+    - target: {fileID: 2599640242603484502, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
+      propertyPath: highlightMaterial
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: 2b8fc1774c7778f46a5134ef1f23b567, type: 3}
     - target: {fileID: 4014945002144309426, guid: 36325deb9cf74324e9e8730f88dad77a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.189
@@ -6658,9 +6668,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1829061389759195303, guid: 919dbeadea6edc746bcce3f0d8f3dce0, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 1214955349}
-    - targetCorrespondingSourceObject: {fileID: 1829061389759195303, guid: 919dbeadea6edc746bcce3f0d8f3dce0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1956606337}
     - targetCorrespondingSourceObject: {fileID: 1829061389759195303, guid: 919dbeadea6edc746bcce3f0d8f3dce0, type: 3}
@@ -6742,3 +6749,4 @@ SceneRoots:
   - {fileID: 1070725106}
   - {fileID: 1974226826}
   - {fileID: 98486489}
+  - {fileID: 1214955349}

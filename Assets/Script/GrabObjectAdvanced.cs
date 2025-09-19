@@ -16,6 +16,10 @@ public class GrabObjectAdvanced : MonoBehaviour
     [Header("Cube Tag")]
     public string cubeTag = "Cube";
 
+    [Header("Materials")]
+    public Material normalMaterial;   // Matériau par défaut
+    public Material highlightMaterial; // Matériau pour hover + grab
+
     private Rigidbody grabbedRb;
     private Vector3 originalLinearVelocity;
     private float originalLinearDamping;
@@ -25,8 +29,14 @@ public class GrabObjectAdvanced : MonoBehaviour
     private bool hasRotatedCube = false;
     private Vector3 lastRotation;
 
+    // pour gérer le survol
+    private Renderer currentHoverRenderer;
+    private Renderer grabbedRenderer;
+
     void Update()
     {
+        HandleHover();
+
         // Rotation du cube avec clic droit
         if (grabbedRb && Input.GetMouseButton(1))
         {
@@ -53,17 +63,10 @@ public class GrabObjectAdvanced : MonoBehaviour
         // Lancer du cube avec clic gauche
         if (grabbedRb && Input.GetMouseButtonDown(0))
         {
-            Rigidbody rbToThrow = grabbedRb; // copie locale pour éviter null
-            if (questManager != null && rbToThrow.CompareTag(cubeTag))
-            {
+            if (questManager != null && grabbedRb.CompareTag(cubeTag))
                 questManager.PlayerDidAction("ThrowCube");
-            }
 
             ReleaseObject(true);
-
-            // Reset pour prochaine prise
-            hasRotatedCube = false;
-            hasTakenCube = false;
         }
 
         // Prendre ou lâcher avec E
@@ -81,6 +84,45 @@ public class GrabObjectAdvanced : MonoBehaviour
             Vector3 targetPos = grabPoint.position;
             Vector3 newPos = Vector3.Lerp(grabbedRb.position, targetPos, Time.fixedDeltaTime * holdSmoothness);
             grabbedRb.MovePosition(newPos);
+        }
+    }
+
+    void HandleHover()
+    {
+        // Pas de highlight si on tient déjà un cube
+        if (grabbedRb)
+            return;
+
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, grabDistance))
+        {
+            Renderer r = hit.collider.GetComponent<Renderer>();
+            if (r && hit.collider.CompareTag(cubeTag))
+            {
+                if (currentHoverRenderer != r)
+                {
+                    // enlever highlight précédent
+                    if (currentHoverRenderer) currentHoverRenderer.material = normalMaterial;
+                    currentHoverRenderer = r;
+                    currentHoverRenderer.material = highlightMaterial;
+                }
+            }
+            else
+            {
+                if (currentHoverRenderer)
+                {
+                    currentHoverRenderer.material = normalMaterial;
+                    currentHoverRenderer = null;
+                }
+            }
+        }
+        else
+        {
+            if (currentHoverRenderer)
+            {
+                currentHoverRenderer.material = normalMaterial;
+                currentHoverRenderer = null;
+            }
         }
     }
 
@@ -106,6 +148,10 @@ public class GrabObjectAdvanced : MonoBehaviour
                 rb.linearDamping  = 10f;
                 rb.angularDamping = 10f;
 
+                // garde le highlight pendant le grab
+                grabbedRenderer = hit.collider.GetComponent<Renderer>();
+                if (grabbedRenderer) grabbedRenderer.material = highlightMaterial;
+
                 // Validation prise
                 if (!hasTakenCube && questManager != null)
                 {
@@ -113,7 +159,7 @@ public class GrabObjectAdvanced : MonoBehaviour
                     hasTakenCube = true;
                 }
 
-                lastRotation = rb.transform.eulerAngles; // rotation initiale
+                lastRotation = rb.transform.eulerAngles;
             }
         }
     }
@@ -122,13 +168,22 @@ public class GrabObjectAdvanced : MonoBehaviour
     {
         if (!grabbedRb) return;
 
-        Rigidbody rb = grabbedRb; // copie locale
+        Rigidbody rb = grabbedRb;
         rb.linearDamping  = originalLinearDamping;
         rb.angularDamping = originalAngularDamping;
 
         if (throwIt)
             rb.linearVelocity = playerCamera.transform.forward * throwForce;
 
+        // remet le matériau normal à la release
+        if (grabbedRenderer)
+        {
+            grabbedRenderer.material = normalMaterial;
+            grabbedRenderer = null;
+        }
+
         grabbedRb = null;
+        hasRotatedCube = false;
+        hasTakenCube = false;
     }
 }
